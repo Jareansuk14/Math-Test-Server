@@ -14,9 +14,14 @@ export async function register(req: Request, res: Response) {
   if (exists) return res.status(409).json({ message: 'Student already exists' });
   const student = await Student.create({ studentId, name, school });
   const token = signToken({ sub: student.id, role: 'student' });
-  res.cookie('token', token, { httpOnly: true, sameSite: 'lax' });
 
-  return res.json({ id: student.id, studentId, name, school });
+  return res.json({ 
+    id: student.id, 
+    studentId, 
+    name, 
+    school,
+    token 
+  });
 }
 
 export async function loginStudent(req: Request, res: Response) {
@@ -26,8 +31,13 @@ export async function loginStudent(req: Request, res: Response) {
   const student = await Student.findOne({ studentId });
   if (!student) return res.status(404).json({ message: 'Student not found' });
   const token = signToken({ sub: student.id, role: 'student' });
-  res.cookie('token', token, { httpOnly: true, sameSite: 'lax' });
-  return res.json({ id: student.id, studentId: student.studentId, name: student.name, school: student.school });
+  return res.json({ 
+    id: student.id, 
+    studentId: student.studentId, 
+    name: student.name, 
+    school: student.school,
+    token 
+  });
 }
 
 export async function loginAdmin(req: Request, res: Response) {
@@ -39,11 +49,14 @@ export async function loginAdmin(req: Request, res: Response) {
   const valid = await verifyPassword(password, admin.passwordHash);
   if (!valid) return res.status(401).json({ message: 'Invalid credentials' });
   const token = signToken({ sub: admin.id, role: 'admin' });
-  res.cookie('token', token, { httpOnly: true, sameSite: 'lax' });
-  return res.json({ id: admin.id, email: admin.email, role: admin.role });
+  return res.json({ 
+    id: admin.id, 
+    email: admin.email, 
+    role: admin.role,
+    token 
+  });
 }
 
 export async function logout(_req: Request, res: Response) {
-  res.clearCookie('token');
   res.json({ message: 'Logged out' });
 }
