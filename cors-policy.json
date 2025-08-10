@@ -1,0 +1,30 @@
+[
+    {
+        "AllowedHeaders": [
+            "Authorization",
+            "Content-Range",
+            "Accept",
+            "Content-Type",
+            "Origin",
+            "Range"
+        ],
+        "AllowedMethods": [
+            "GET",
+            "PUT",
+            "POST",
+            "DELETE",
+            "HEAD"
+        ],
+        "AllowedOrigins": [
+            "http://localhost:5173",
+            "https://localhost:5173",
+            "*"
+        ],
+        "ExposeHeaders": [
+            "Content-Range",
+            "Content-Length",
+            "ETag"
+        ],
+        "MaxAgeSeconds": 3600
+    }
+]

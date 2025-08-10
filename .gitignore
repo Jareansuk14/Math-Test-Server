@@ -1,0 +1,13 @@
+# 0) กันพลาด: ใส่ .gitignore (ถ้ายังไม่ได้ใส่)
+cat >> .gitignore << 'EOF'
+node_modules/
+.env
+*.key
+*.pem
+*.pfx
+*.crt
+secrets.*
+config.local.*
+EOF
+git add .gitignore
+git commit -m "chore: ignore node_modules & secrets" || true
