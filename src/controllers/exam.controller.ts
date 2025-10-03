@@ -95,7 +95,7 @@ export async function completeExam(req: Request, res: Response) {
 export async function getSummary(req: Request, res: Response) {
   if (!req.user || req.user.role !== 'student') return res.status(401).json({ message: 'Unauthorized' });
   const { resultId } = req.params;
-  const result = await ExamResult.findById(resultId).populate('perQuestion.questionId', 'index');
+  const result = await ExamResult.findById(resultId).populate('perQuestion.questionId', 'index choices');
   if (!result) return res.status(404).json({ message: 'Result not found' });
   
   // Ensure student can only see their own results

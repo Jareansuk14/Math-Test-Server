@@ -45,7 +45,10 @@ export async function listStudents(_req: Request, res: Response) {
 }
 
 export async function listResults(_req: Request, res: Response) {
-  const items = await ExamResult.find().sort({ completedAt: -1 }).lean();
+  const items = await ExamResult.find()
+    .sort({ completedAt: -1 })
+    .populate('perQuestion.questionId', 'index choices')
+    .lean();
   // Transform ObjectId to string for frontend compatibility
   const transformedItems = items.map(item => ({
     ...item,
@@ -53,7 +56,7 @@ export async function listResults(_req: Request, res: Response) {
     studentId: item.studentId.toString(),
     perQuestion: item.perQuestion.map(pq => ({
       ...pq,
-      questionId: pq.questionId.toString()
+      questionId: pq.questionId
     }))
   }));
   res.json(transformedItems);
